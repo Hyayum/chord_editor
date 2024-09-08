@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useRef, useState, useEffect } from "react";
 import ChordEditor from "./ChordEditor";
+import NumberField from "./components/NumberField";
 
 export interface Chord {
   memo?: string;
@@ -141,7 +142,7 @@ export default function Home() {
 
   return (
     <>
-      <Grid container spacing={2} sx={{ m: 5 }}>
+      <Grid container spacing={2} sx={{ m: 5, minWidth: 1200 }}>
         <Grid size={12}>
           <Typography variant="h4" sx={{ mb: 2 }}>
             #てぃみ式 コードエディタ
@@ -160,13 +161,12 @@ export default function Home() {
               />
             </Box>
             <Box sx={{ width: 100 }}>
-              <TextField
+              <NumberField
                 id="bpm"
                 label="初期BPM"
                 size="small"
                 value={bpm}
-                type="number"
-                onChange={(e) => setBpm(Number(e.target.value))}
+                onChange={(e) => setBpm(Math.max(Number(e.target.value), 0))}
                 fullWidth
               />
             </Box>
@@ -188,13 +188,12 @@ export default function Home() {
               </TextField>
             </Box>
             <Box sx={{ width: 150 }}>
-              <TextField
+              <NumberField
                 id="beats"
                 label="デフォルト拍数"
                 size="small"
                 value={beats}
-                type="number"
-                onChange={(e) => setBeats(Number(e.target.value))}
+                onChange={(e) => setBeats(Math.max(Number(e.target.value), 0))}
                 fullWidth
               />
             </Box>

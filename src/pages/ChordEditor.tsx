@@ -1,4 +1,3 @@
-"use client"
 import {
   Box,
   Button,
@@ -14,6 +13,7 @@ import {
 } from "@mui/material";
 import { useRef, useState } from "react";
 import { Chord, keyOptions, defaultChord } from "./index"
+import NumberField from "./components/NumberField";
 
 interface Props {
   chord: Chord;
@@ -110,13 +110,12 @@ export default function ChordEditor(props: Props) {
         />
 
         <Box sx={{ width: 100 }}>
-          <TextField
+          <NumberField
             id="beats"
             label="拍数"
             size="small"
-            value={chord.beats || defaultBeats}
-            type="number"
-            onChange={(e) => onChange({ ...chord, beats: Number(e.target.value) })}
+            value={chord.beats}
+            onChange={(e) => onChange({ ...chord, beats: Math.max(Number(e.target.value), 0) })}
             fullWidth
             slotProps={{
               inputLabel: {
@@ -149,7 +148,7 @@ export default function ChordEditor(props: Props) {
             label="キー変更"
             size="small"
             value={chord.key || 12}
-            onChange={(e) => onChange({ ...chord, key: Number(e.target.value) })}
+            onChange={(e) => onChange({ ...chord, key: Math.max(Number(e.target.value), 0) })}
             fullWidth
             slotProps={{
               inputLabel: {
@@ -169,12 +168,11 @@ export default function ChordEditor(props: Props) {
         </Box>
 
         <Box sx={{ width: 180 }}>
-          <TextField
+          <NumberField
             id="bpm"
             label="BPM変更 (未設定: 0)"
             size="small"
             value={chord.bpm || 0}
-            type="number"
             onChange={(e) => onChange({ ...chord, bpm: Number(e.target.value) })}
             fullWidth
             slotProps={{
