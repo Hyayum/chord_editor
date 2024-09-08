@@ -114,7 +114,7 @@ export default function ChordEditor(props: Props) {
             id="beats"
             label="拍数"
             size="small"
-            value={chord.beats}
+            value={chord.beats ?? defaultBeats}
             onChange={(e) => onChange({ ...chord, beats: Math.max(Number(e.target.value), 0) })}
             fullWidth
             slotProps={{
