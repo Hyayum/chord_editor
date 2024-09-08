@@ -1,115 +1,259 @@
-import Image from "next/image";
-import localFont from "next/font/local";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Grid2 as Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useRef, useState, useEffect } from "react";
+import ChordEditor from "./ChordEditor";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+export interface Chord {
+  memo?: string;
+  bpm?: number;
+  key?: number;
+  bass: number;
+  shape: string;
+  accd?: number[];
+  beats: number;
+};
+
+export const keyOptions = [
+  { label: "C", value: 0 },
+  { label: "D♭", value: -5 },
+  { label: "D", value: 2 },
+  { label: "E♭", value: -3 },
+  { label: "E", value: 4 },
+  { label: "F", value: -1 },
+  { label: "G♭", value: -6 },
+  { label: "G", value: 1 },
+  { label: "A♭", value: -4 },
+  { label: "A", value: 3 },
+  { label: "B♭", value: -2 },
+  { label: "B", value: 5 },
+];
 
 export default function Home() {
-  return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  
+  const [filename, setFilename] = useState("chord");
+  const [bpm, setBpm] = useState(160);
+  const [key, setKey] = useState(0);
+  const [beats, setBeats] = useState(2);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const defaultChord: Chord = {
+    bass: 1,
+    shape: "135",
+    beats: 2,
+    key: 12,
+  };
+
+  const keyOptions = [
+    { label: "C", value: 0 },
+    { label: "D♭", value: -5 },
+    { label: "D", value: 2 },
+    { label: "E♭", value: -3 },
+    { label: "E", value: 4 },
+    { label: "F", value: -1 },
+    { label: "G♭", value: -6 },
+    { label: "G", value: 1 },
+    { label: "A♭", value: -4 },
+    { label: "A", value: 3 },
+    { label: "B♭", value: -2 },
+    { label: "B", value: 5 },
+  ];
+
+  const [chords, setChords] = useState<Chord[]>([defaultChord]);
+
+  const onChangeChord = (chord: Chord, i: number) => {
+    const newChords = [...chords];
+    newChords[i] = chord;
+    setChords(newChords);
+  };
+
+  const addChord = (i: number) => {
+    const newChords = [...chords];
+    if (i >= 0) {
+      newChords.splice(i, 0, defaultChord);
+    } else {
+      newChords.push(defaultChord);
+    }
+    setChords(newChords);
+  };
+
+  const removeChord = (i: number) => {
+    const newChords = [...chords];
+    newChords.splice(i, 1);
+    setChords(newChords);
+  };
+
+  const downloadJson = () => {
+    const dlData = {
+      default_beats: beats,
+      bgcolor: "#ffffff",
+      color: "#88ccee",
+      chords: chords,
+    };
+    if (!dlData.chords[0].bpm) { dlData.chords[0].bpm = bpm; }
+    if (!dlData.chords[0].key) { dlData.chords[0].key = key; }
+    const element = document.createElement("a");
+    element.style.display = "none";
+    const file = new Blob([JSON.stringify(dlData)], { type: "application/json" });
+    element.href = URL.createObjectURL(file);
+    element.download = `${filename}.json`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  const handleChangeFile = async (e: React.FormEvent<HTMLInputElement>) => {
+    setLoading(true);
+    try {
+      const fileReader = new window.FileReader();
+      const target = e.target as HTMLInputElement;
+      const file = target.files?.[0];
+      if (file && file.type == "application/json") {
+        fileReader.onload = function (event) {
+          const text = String(event.target?.result);
+          const jsonData = JSON.parse(text);
+          setFilename(file.name.split(".json")[0]);
+          if (jsonData.default_beats) setBeats(jsonData.default_beats);
+          if (jsonData.chords[0].bpm) setBpm(jsonData.chords[0].bpm);
+          if (jsonData.chords[0].key) setKey(jsonData.chords[0].key);
+          setChords(jsonData.chords);
+        }
+        fileReader.readAsText(file);
+      } else {
+        throw new Error("File is invalid");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(false);
+  }, [chords]);
+
+  return (
+    <>
+      <Grid container spacing={2} sx={{ m: 5 }}>
+        <Grid size={12}>
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            #てぃみ式 コードエディタ
+          </Typography>
+        </Grid>
+        <Grid size={12}>
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ width: 150 }}>
+              <TextField
+                id="filename"
+                label="ファイル名 (.json)"
+                size="small"
+                value={filename}
+                onChange={(e) => setFilename(e.target.value)}
+                fullWidth
+              />
+            </Box>
+            <Box sx={{ width: 100 }}>
+              <TextField
+                id="bpm"
+                label="初期BPM"
+                size="small"
+                value={bpm}
+                type="number"
+                onChange={(e) => setBpm(Number(e.target.value))}
+                fullWidth
+              />
+            </Box>
+            <Box sx={{ width: 100 }}>
+              <TextField
+                select
+                id="key"
+                label="初期キー"
+                size="small"
+                value={key}
+                onChange={(e) => setKey(Number(e.target.value))}
+                fullWidth
+              >
+                {keyOptions.map((k) => (
+                  <MenuItem key={k.value} value={k.value}>
+                    {k.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box sx={{ width: 150 }}>
+              <TextField
+                id="beats"
+                label="デフォルト拍数"
+                size="small"
+                value={beats}
+                type="number"
+                onChange={(e) => setBeats(Number(e.target.value))}
+                fullWidth
+              />
+            </Box>
+
+            <Button
+              color="success"
+              variant="contained"
+              size="small"
+              onClick={downloadJson}
+              sx={{ mx: 1 }}
+            >
+              JSONダウンロード
+            </Button>
+            <input
+              accept={".json"}
+              value=""
+              multiple
+              type="file"
+              style={{ display: "none" }}
+              onInput={handleChangeFile}
+              ref={inputRef}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              sx={{ mx: 1 }}
+              onClick={() => inputRef.current?.click()}
+            >
+              JSON読み込み
+            </Button>
+          </Box>
+        </Grid>
+        <Grid size={12}>
+          {chords.map((chord, i) => (
+            <ChordEditor
+              key={i}
+              chord={chord}
+              defaultBeats={beats}
+              onChange={(c: Chord) => onChangeChord(c, i)}
+              addChord={() => addChord(i)}
+              removeChord={() => removeChord(i)}
+            />
+          ))}
+        </Grid>
+        <Grid size={12}>
+          <Button
+            color="primary"
+            variant="contained"
+            size="small"
+            onClick={() => addChord(-1)}
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            追加
+          </Button>
+        </Grid>
+      </Grid>
+      <Backdrop open={loading}>
+        <CircularProgress color="success" />
+      </Backdrop>
+    </>
   );
-}
+};

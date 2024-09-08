@@ -2,9 +2,9 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html lang="ja">
       <Head />
-      <body className="antialiased">
+      <body className={`--font-geist-sans --font-geist-mono antialiased`}>
         <Main />
         <NextScript />
       </body>
