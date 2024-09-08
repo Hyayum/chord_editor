@@ -1,0 +1,797 @@
+{
+	"default_beats": 2,
+	"bgcolor": "#ffffff",
+	"color": "#88ccee",
+	"chords": [
+		{
+			"memo": "---------A(2)----------",
+			"key": -2,
+			"bpm": 176,
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 5,
+			"shape": "146",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [-3, 5],
+			"beats": 1
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1235",
+			"accd": []
+		},
+		{
+			"bass": 4,
+			"shape": "1235",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 3,
+			"shape": "1347",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"memo": "---------A'(10)----------",
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 5,
+			"shape": "146",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [-3, 5],
+			"beats": 1
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1235",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [5]
+		},
+		{
+			"bass": 6,
+			"shape": "135",
+			"accd": [4, 1, 5],
+			"beats": 4
+		},
+		{
+			"memo": "---------B(18)----------",
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "135",
+			"accd": [1],
+			"beats": 3
+		},
+		{
+			"bass": 5,
+			"shape": "1256",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 4,
+			"shape": "1356",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "135",
+			"accd": [1],
+			"beats": 3
+		},
+		{
+			"bass": 5,
+			"shape": "1256",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 4,
+			"shape": "1356",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [5]
+		},
+		{
+			"bass": 6,
+			"shape": "1245",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1357",
+			"accd": [4, 1, 5]
+		},
+		{
+			"key": 1,
+			"bass": 4,
+			"shape": "1357",
+			"accd": [-7, -3]
+		},
+		{
+			"bass": 7,
+			"shape": "1356",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"bass": 5,
+			"shape": "1457",
+			"accd": [],
+			"beats": 3
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 4,
+			"shape": "1235",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"bass": 5,
+			"shape": "1245",
+			"accd": [-6]
+		},
+		{
+			"bass": 5,
+			"shape": "135",
+			"accd": []
+		},
+		{
+			"memo": "---------C(32)----------",
+			"key": -2,
+			"bass": 6,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1245",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 1,
+			"shape": "1235",
+			"accd": [],
+			"beats": 1
+		},
+		{
+			"bass": 4,
+			"shape": "1235",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1356",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"bass": 4,
+			"shape": "1235",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1346",
+			"accd": [-3]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1235",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"memo": "---------C'(40)----------",
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [5]
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1357",
+			"accd": [4, 1, 5]
+		},
+		{
+			"key": 1,
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1356",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1235",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1235",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"memo": "---------D(48)----------",
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": [-6]
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1356",
+			"accd": [-3]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1245",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1235",
+			"accd": []
+		},
+		{
+			"key": -2,
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"key": 1,
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"memo": "---------B'(56)----------",
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 3
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [5],
+			"beats": 1
+		},
+		{
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 3
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [5],
+			"beats": 1
+		},
+		{
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": [-6]
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1356",
+			"accd": [1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1245",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1356",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"memo": "---------E(68)----------",
+			"key": -2,
+			"bass": 6,
+			"shape": "1357",
+			"accd": [4, 1]
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": [4]
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1357",
+			"accd": [-7]
+		},
+		{
+			"bass": 4,
+			"shape": "1235",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 7,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 3,
+			"shape": "1357",
+			"accd": [5]
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 6,
+			"shape": "1357",
+			"accd": [1]
+		},
+		{
+			"key": 1,
+			"bass": 4,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 4
+		},
+		{
+			"bass": 2,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 5,
+			"shape": "1357",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "1245",
+			"accd": []
+		},
+		{
+			"bass": 1,
+			"shape": "135",
+			"accd": [],
+			"beats": 6
+		}
+	]
+}
