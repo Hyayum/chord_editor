@@ -123,9 +123,9 @@ export default function Home() {
           const jsonData = JSON.parse(text);
           setFilename(file.name.split(".json")[0]);
           if (jsonData.default_beats) setBeats(jsonData.default_beats);
-          if (jsonData.chords[0].bpm) setBpm(jsonData.chords[0].bpm);
-          if (jsonData.chords[0].key) setKey(jsonData.chords[0].key);
-          setChords(jsonData.chords);
+          if (jsonData.chords?.[0]?.bpm) setBpm(jsonData.chords[0].bpm);
+          if (jsonData.chords?.[0]?.key) setKey(jsonData.chords[0].key);
+          setChords(jsonData.chords || []);
         }
         fileReader.readAsText(file);
       } else {
