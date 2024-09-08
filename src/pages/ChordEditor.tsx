@@ -219,14 +219,18 @@ const ShapeSelector = ({
   onChange: (s: string) => void;
   onClose: () => void;
 }) => {
-  const [tabValue, setTabValue] = useState(1);
-
+  
   const basicShapes = [
     ["135", "137", "157", "123", "125"],
     ["1357", "1235", "1345", "1457", "1567"],
     ["12357", "13457", "12345"],
     ["1", "13", "15", "17", "123457", "1234567"]
-  ]
+  ];
+  const semiBasicShapes = ["156", "145", "13567", "123567", "134567"];
+  const basicShapesWithSemi = basicShapes.reduce((arr, val) => arr.concat(val), []).concat(semiBasicShapes)
+
+  const defaultTabValue = Math.abs(basicShapes.findIndex((shapes) => shapes.includes(value)));
+  const [tabValue, setTabValue] = useState(defaultTabValue);
 
   const convertShape = (shape: string, b: number) => {
     const arr = Array.from(shape);
@@ -257,21 +261,28 @@ const ShapeSelector = ({
         <Box sx={{ m: 1 }}>
           {basicShapes[tabValue].map((basic) => (
             <Box sx={{ display: "flex" }} key={basic}>
-              {Array(7).fill(0).map((z, n) => (
-                <Box sx={{ width: 70 }} key={n}>
-                  {basic.includes(String(n + 1)) && !(basic == "1234567" && n > 0) && (
-                    <Button
-                      color={value == convertShape(basic, n + 1) ? "error" : "primary"}
-                      variant="contained"
-                      size="small"
-                      onClick={() => onChange(convertShape(basic, n + 1))}
-                      sx={{ m: 0.2 }}
-                    >
-                      {convertShape(basic, n + 1)}
-                    </Button>
-                  )}
-                </Box>
-              ))}
+              {Array(7).fill(0).map((z, n) => {
+                const shape = convertShape(basic, n + 1);
+                return (
+                  <Box sx={{ width: 70 }} key={n}>
+                    {basic.includes(String(n + 1)) && !(basic == "1234567" && n > 0) && (
+                      <Button
+                        color={
+                          value == shape ? "error"
+                          : basicShapesWithSemi.includes(shape) ? "success"
+                          : "primary"
+                        }
+                        variant="contained"
+                        size="small"
+                        onClick={() => onChange(shape)}
+                        sx={{ m: 0.2 }}
+                      >
+                        {shape}
+                      </Button>
+                    )}
+                  </Box>
+                )
+              })}
             </Box>
           ))}
         </Box>
