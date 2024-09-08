@@ -147,8 +147,8 @@ export default function ChordEditor(props: Props) {
             id="key"
             label="キー変更"
             size="small"
-            value={chord.key || 12}
-            onChange={(e) => onChange({ ...chord, key: Math.max(Number(e.target.value), 0) })}
+            value={chord.key ?? 12}
+            onChange={(e) => onChange({ ...chord, key: Number(e.target.value) })}
             fullWidth
             slotProps={{
               inputLabel: {
@@ -173,7 +173,7 @@ export default function ChordEditor(props: Props) {
             label="BPM変更 (未設定: 0)"
             size="small"
             value={chord.bpm || 0}
-            onChange={(e) => onChange({ ...chord, bpm: Number(e.target.value) })}
+            onChange={(e) => onChange({ ...chord, bpm: Math.max(Number(e.target.value), 0) })}
             fullWidth
             slotProps={{
               inputLabel: {
