@@ -36,6 +36,13 @@ export const keyOptions = [
   { label: "B", value: 5 },
 ];
 
+export const defaultChord: Chord = {
+  bass: 1,
+  shape: "135",
+  beats: 2,
+  key: 12,
+};
+
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -44,13 +51,6 @@ export default function Home() {
   const [bpm, setBpm] = useState(160);
   const [key, setKey] = useState(0);
   const [beats, setBeats] = useState(2);
-
-  const defaultChord: Chord = {
-    bass: 1,
-    shape: "135",
-    beats: 2,
-    key: 12,
-  };
 
   const keyOptions = [
     { label: "C", value: 0 },

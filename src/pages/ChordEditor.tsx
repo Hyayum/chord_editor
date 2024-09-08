@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { Chord, keyOptions } from "./index"
+import { Chord, keyOptions, defaultChord } from "./index"
 
 interface Props {
   chord: Chord;
@@ -24,7 +24,7 @@ interface Props {
 };
 
 export default function ChordEditor(props: Props) {
-  const { chord, defaultBeats, onChange, addChord, removeChord } = props;
+  const { chord = defaultChord, defaultBeats, onChange, addChord, removeChord } = props;
 
   const [openShape, setOpenShape] = useState(false);
   const shapeRef = useRef<HTMLInputElement>(null);
