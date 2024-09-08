@@ -78,9 +78,9 @@ export default function Home() {
   const addChord = (i: number) => {
     const newChords = [...chords];
     if (i >= 0) {
-      newChords.splice(i, 0, defaultChord);
+      newChords.splice(i, 0, { ...defaultChord, beats: beats });
     } else {
-      newChords.push(defaultChord);
+      newChords.push({ ...defaultChord, beats: beats });
     }
     setChords(newChords);
   };
