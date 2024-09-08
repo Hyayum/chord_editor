@@ -102,7 +102,7 @@ export default function Home() {
     if (!dlData.chords[0].key) { dlData.chords[0].key = key; }
     const element = document.createElement("a");
     element.style.display = "none";
-    const file = new Blob([JSON.stringify(dlData)], { type: "application/json" });
+    const file = new Blob([JSON.stringify(dlData, undefined, 2)], { type: "application/json" });
     element.href = URL.createObjectURL(file);
     element.download = `${filename}.json`;
     document.body.appendChild(element);
