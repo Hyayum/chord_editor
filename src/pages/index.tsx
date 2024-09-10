@@ -16,6 +16,7 @@ import NumberField from "@/components/NumberField";
 import ChordPreviewButton from "@/components/ChordPreviewButton";
 import { getChordPlayer, getChordsForMidi } from "@/lib/midi";
 import { Chord, defaultChord } from "@/lib/types";
+import Link from "next/link";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -120,12 +121,34 @@ export default function Home() {
     await playChord(chordsForMidi[i]);
   };
 
+  const links = [
+    { "url": "https://note.com/timireno/n/nd6f8b4b2fc65", label: "⓪概要" },
+    { "url": "https://note.com/timireno/n/n6809f646a92d", label: "①コードの機能と進行と転調" },
+    { "url": "https://note.com/timireno/n/n3e91d7162dcb", label: "②変位と調と音程" },
+    { "url": "https://note.com/timireno/n/n53a2faf1ca37", label: "③和音の構成と主機能" },
+  ];
+
   return (
     <>
-      <Grid container spacing={2} sx={{ m: 5, minWidth: 1500 }}>
+      <Grid container spacing={3} sx={{ m: 5, minWidth: 1500 }}>
         <Grid size={12}>
           <Typography variant="h4" sx={{ mb: 2 }}>
             #てぃみ式 コードエディタ
+          </Typography>
+          <Typography variant="subtitle2">
+            理論について：
+          </Typography>
+          <Box sx={{ ml: 1 }}>
+            {links.map((link) => (
+              <Typography variant="subtitle2" key={link.label}>
+                <Link href={link.url} style={{ color: "green", marginLeft: 1, textDecoration: "underline" }}>
+                  {link.label}
+                </Link>
+              </Typography>
+            ))}
+          </Box>
+          <Typography variant="subtitle2">
+            音の再生にはMIDI環境が必要です
           </Typography>
         </Grid>
         <Grid size={12}>
