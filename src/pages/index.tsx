@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import { useRef, useState, useEffect } from "react";
-import ChordEditor from "./ChordEditor";
-import NumberField from "./components/NumberField";
-import ChordPreviewButton from "./components/ChordPreviewButton";
-import { getChordPlayer, getChordsForMidi } from "./lib/midi";
+import ChordEditor from "@/ChordEditor";
+import NumberField from "@/components/NumberField";
+import ChordPreviewButton from "@/components/ChordPreviewButton";
+import { getChordPlayer, getChordsForMidi } from "@/lib/midi";
 
 export interface Chord {
   memo?: string;

@@ -13,8 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { Chord, keyOptions, defaultChord } from "./index"
-import NumberField from "./components/NumberField";
+import { Chord, keyOptions, defaultChord } from "@/index"
+import NumberField from "@/components/NumberField";
 
 interface Props {
   index: number;

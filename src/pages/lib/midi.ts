@@ -1,4 +1,4 @@
-import { Chord } from "..";
+import { Chord } from "@/index";
 
 interface ChordForMidi {
   memo?: string;

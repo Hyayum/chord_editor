@@ -1,9 +1,9 @@
 import { Box, Button } from "@mui/material";
 import { Stop, PlayArrow } from "@mui/icons-material";
 import { useEffect, useState, useRef } from "react";
-import { Chord } from "..";
-import { getChordPlayer, getChordsForMidi, stopMidi } from "../lib/midi";
-import NumberField from "./NumberField";
+import { Chord } from "@/index";
+import { getChordPlayer, getChordsForMidi, stopMidi } from "@/lib/midi";
+import NumberField from "@/components/NumberField";
 
 interface Props {
   chords: Chord[];
