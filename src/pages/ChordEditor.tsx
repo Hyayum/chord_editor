@@ -61,6 +61,18 @@ export default function ChordEditor(props: Props) {
     return `${firstMainFunc}${secondMainFunc && "/"}${secondMainFunc}`;
   };
 
+  const calcScaleLevel = () => {
+    const marks = ["α", "β", "γ", "δ", "ε", "ζ", "η"];
+    const baseCircle = [1, 3, 5, 0, 2, 4, 6];
+    const circle = baseCircle.map((n, i) => 
+      chord.accd?.includes(i + 1) ? n + 7 :
+      chord.accd?.includes(-i - 1) ? n - 7 : n
+    );
+    const range = Math.max(...circle) - Math.min(...circle);
+    if (range == 6) { return "-"; }
+    return `${marks[range % 7]}${Math.floor((range - 7) / 7) > 0 ? Math.floor((range - 7) / 7) + 1 : ""}`;
+  };
+
   return (
     <Paper elevation={2} sx={{ p: 1, pl: 0, my: 1 }}>
       <Box sx={{ display: "flex" }}>
@@ -137,6 +149,12 @@ export default function ChordEditor(props: Props) {
           onChange={(a) => { onChange({ ...chord, accd: a }); }}
           onClose={handleCloseAccd}
         />
+
+        <Box sx={{ width: 60 }}>
+          <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.5 }}>
+            {calcScaleLevel()}
+          </Typography>
+        </Box>
 
         <Box sx={{ width: 100 }}>
           <NumberField
