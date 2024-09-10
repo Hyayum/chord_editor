@@ -4,13 +4,17 @@ import {
   Button,
   CircularProgress,
   Grid2 as Grid,
+  IconButton,
   MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
+import { PlayArrow } from "@mui/icons-material";
 import { useRef, useState, useEffect } from "react";
 import ChordEditor from "./ChordEditor";
 import NumberField from "./components/NumberField";
+import ChordPreviewButton from "./components/ChordPreviewButton";
+import { getChordPlayer, getChordsForMidi } from "./lib/midi";
 
 export interface Chord {
   memo?: string;
@@ -52,6 +56,8 @@ export default function Home() {
   const [bpm, setBpm] = useState(160);
   const [key, setKey] = useState(0);
   const [beats, setBeats] = useState(2);
+  const [chords, setChords] = useState<Chord[]>([defaultChord]);
+  // const [nowPlaying, setNowPlaying] = useState(0);
 
   const keyOptions = [
     { label: "C", value: 0 },
@@ -67,8 +73,6 @@ export default function Home() {
     { label: "B♭", value: -2 },
     { label: "B", value: 5 },
   ];
-
-  const [chords, setChords] = useState<Chord[]>([defaultChord]);
 
   const onChangeChord = (chord: Chord, i: number) => {
     const newChords = [...chords];
@@ -140,6 +144,13 @@ export default function Home() {
     setLoading(false);
   }, [chords]);
 
+  const preview = async (i: number) => {
+    //setNowPlaying(i);
+    const playChord = await getChordPlayer();
+    const chordsForMidi = getChordsForMidi(chords, key, bpm, beats);
+    await playChord(chordsForMidi[i]);
+  };
+
   return (
     <>
       <Grid container spacing={2} sx={{ m: 5, minWidth: 1200 }}>
@@ -150,16 +161,6 @@ export default function Home() {
         </Grid>
         <Grid size={12}>
           <Box sx={{ display: "flex" }}>
-            <Box sx={{ width: 150 }}>
-              <TextField
-                id="filename"
-                label="ファイル名 (.json)"
-                size="small"
-                value={filename}
-                onChange={(e) => setFilename(e.target.value)}
-                fullWidth
-              />
-            </Box>
             <Box sx={{ width: 100 }}>
               <NumberField
                 id="bpm"
@@ -198,6 +199,16 @@ export default function Home() {
               />
             </Box>
 
+            <Box sx={{ width: 150 }}>
+              <TextField
+                id="filename"
+                label="ファイル名 (.json)"
+                size="small"
+                value={filename}
+                onChange={(e) => setFilename(e.target.value)}
+                fullWidth
+              />
+            </Box>
             <Button
               color="success"
               variant="contained"
@@ -228,15 +239,34 @@ export default function Home() {
           </Box>
         </Grid>
         <Grid size={12}>
+          <ChordPreviewButton
+            chords={chords}
+            keySf={key}
+            bpm={bpm}
+            beats={beats}
+          />
+        </Grid>
+        <Grid size={12}>
           {chords.map((chord, i) => (
-            <ChordEditor
-              key={i}
-              chord={chord}
-              defaultBeats={beats}
-              onChange={(c: Chord) => onChangeChord(c, i)}
-              addChord={() => addChord(i)}
-              removeChord={() => removeChord(i)}
-            />
+            <Box sx={{ display: "flex" }} key={i}>
+              <IconButton
+                // color={i == nowPlaying ? "warning" : "primary"} <- 重くなる
+                color="primary"
+                size="small"
+                onClick={() => preview(i)}
+                sx={{ mr: 1 }}
+              >
+                <PlayArrow />
+              </IconButton>
+              <ChordEditor
+                index={i + 1}
+                chord={chord}
+                defaultBeats={beats}
+                onChange={(c: Chord) => onChangeChord(c, i)}
+                addChord={() => addChord(i)}
+                removeChord={() => removeChord(i)}
+              />
+            </Box>
           ))}
         </Grid>
         <Grid size={12}>

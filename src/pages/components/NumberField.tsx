@@ -3,12 +3,11 @@ import { useState } from "react";
 
 type Props = {
     variant?: TextFieldVariants;
-    children?: React.ReactNode;
   } & Omit<TextFieldProps, 'variant' | 'onFocus' | 'onBlur' | 'type'>
 
 const NumberField = (props: Props) => {
   const [focused, setFocused] = useState(false);
-  const { children, value, ...rest } = props;
+  const { value, ...rest } = props;
   return (
     <TextField
       { ...rest }
@@ -16,9 +15,7 @@ const NumberField = (props: Props) => {
       value={value || (focused ? "" : value)}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
-    >
-      { children }
-    </TextField>
+    />
   );
 };
 

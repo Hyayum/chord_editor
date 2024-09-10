@@ -10,12 +10,14 @@ import {
   Tab,
   Tabs,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
 import { Chord, keyOptions, defaultChord } from "./index"
 import NumberField from "./components/NumberField";
 
 interface Props {
+  index: number;
   chord: Chord;
   defaultBeats: number;
   onChange: (c: Chord) => void;
@@ -24,7 +26,7 @@ interface Props {
 };
 
 export default function ChordEditor(props: Props) {
-  const { chord = defaultChord, defaultBeats, onChange, addChord, removeChord } = props;
+  const { index, chord = defaultChord, defaultBeats, onChange, addChord, removeChord } = props;
 
   const [openShape, setOpenShape] = useState(false);
   const shapeRef = useRef<HTMLInputElement>(null);
@@ -44,8 +46,13 @@ export default function ChordEditor(props: Props) {
   }; 
 
   return (
-    <Paper elevation={2} sx={{ p: 1, my: 1 }}>
+    <Paper elevation={2} sx={{ p: 1, pl: 0, my: 1 }}>
       <Box sx={{ display: "flex" }}>
+        <Box sx={{ width: 30 }}>
+          <Typography variant="subtitle2" sx={{ color: "#aaa", textAlign: "center", mt: 1.1 }}>
+            {index}
+          </Typography>
+        </Box>
         <Box sx={{ width: 100 }}>
           <TextField
             select
