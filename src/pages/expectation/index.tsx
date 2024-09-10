@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import NumberField from "@/components/NumberField";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Calc {
   mode: number;
