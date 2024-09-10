@@ -43,7 +43,23 @@ export default function ChordEditor(props: Props) {
     if (n > 0) return `${n}＃`;
     else if (n < 0) return `${-n}♭`;
     else return `${n}`;
-  }; 
+  };
+
+  const calcMainFunc = () => {
+    const arr = Array.from(chord.shape).map((n) => Number(n));
+    const points = arr.map((n) => {
+      let p = 0;
+      if (n == 1) { p += 2; }
+      if (arr.includes((n + 1) % 7 + 1)) { p += 2; }
+      if (arr.includes((n + 3) % 7 + 1)) { p += 3; }
+      if (arr.includes((n + 5) % 7 + 1)) { p += 1; }
+      return { num: n, point: p };
+    });
+    const maxPoint = points.reduce((max, val) => Math.max(val.point, max), 0);
+    const firstMainFunc = points.filter((p) => p.point == maxPoint).map((p) => (p.num + chord.bass - 2) % 7 + 1).join(",");
+    const secondMainFunc = points.filter((p) => p.point == maxPoint - 1).map((p) => (p.num + chord.bass - 2) % 7 + 1).join(",");
+    return `${firstMainFunc}${secondMainFunc && "/"}${secondMainFunc}`;
+  };
 
   return (
     <Paper elevation={2} sx={{ p: 1, pl: 0, my: 1 }}>
@@ -90,6 +106,12 @@ export default function ChordEditor(props: Props) {
           onChange={(s) => { onChange({ ...chord, shape: s }); handleCloseShape(); }}
           onClose={handleCloseShape}
         />
+
+        <Box sx={{ width: 80 }}>
+          <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.5 }}>
+            {calcMainFunc()}
+          </Typography>
+        </Box>
 
         <Box sx={{ width: 150 }}>
           <TextField
