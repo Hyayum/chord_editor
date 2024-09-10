@@ -11,42 +11,11 @@ import {
 } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import { useRef, useState, useEffect } from "react";
-import ChordEditor from "@/ChordEditor";
+import ChordEditor from "./ChordEditor";
 import NumberField from "@/components/NumberField";
 import ChordPreviewButton from "@/components/ChordPreviewButton";
 import { getChordPlayer, getChordsForMidi } from "@/lib/midi";
-
-export interface Chord {
-  memo?: string;
-  bpm?: number;
-  key?: number;
-  bass: number;
-  shape: string;
-  accd?: number[];
-  beats: number;
-};
-
-export const keyOptions = [
-  { label: "C", value: 0 },
-  { label: "D♭", value: -5 },
-  { label: "D", value: 2 },
-  { label: "E♭", value: -3 },
-  { label: "E", value: 4 },
-  { label: "F", value: -1 },
-  { label: "G♭", value: -6 },
-  { label: "G", value: 1 },
-  { label: "A♭", value: -4 },
-  { label: "A", value: 3 },
-  { label: "B♭", value: -2 },
-  { label: "B", value: 5 },
-];
-
-export const defaultChord: Chord = {
-  bass: 1,
-  shape: "135",
-  beats: 2,
-  key: 12,
-};
+import { Chord, defaultChord } from "@/lib/types";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);

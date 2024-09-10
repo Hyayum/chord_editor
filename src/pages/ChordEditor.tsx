@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { Chord, keyOptions, defaultChord } from "@/index"
+import { Chord, keyOptions, defaultChord } from "@/lib/types";
 import NumberField from "@/components/NumberField";
 
 interface Props {

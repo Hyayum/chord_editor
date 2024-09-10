@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import { Stop, PlayArrow } from "@mui/icons-material";
 import { useEffect, useState, useRef } from "react";
-import { Chord } from "@/index";
+import { Chord } from "@/lib/types";
 import { getChordPlayer, getChordsForMidi, stopMidi } from "@/lib/midi";
 import NumberField from "@/components/NumberField";
 
@@ -25,7 +25,7 @@ export default function ChordPreviewButton(props: Props) {
     const chordsForMidi = getChordsForMidi(chords, key, bpm, beats);
     setPlaying(true);
     const playChord = await getChordPlayer();
-    for (let chord of chordsForMidi.slice(Math.max(startFrom - 1, 0))) {
+    for (const chord of chordsForMidi.slice(Math.max(startFrom - 1, 0))) {
       await playChord(chord);
       if (!playingRef.current) break;
     }

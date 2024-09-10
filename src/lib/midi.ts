@@ -1,4 +1,4 @@
-import { Chord } from "@/index";
+import { Chord } from "@/lib/types";
 
 interface ChordForMidi {
   memo?: string;
@@ -18,7 +18,7 @@ export const getChordsForMidi = (chords: Chord[], key: number, bpm: number, beat
   const chordsForMidi = [];
   let currentKey = key;
   let currentBpm = bpm;
-  for (let chord of chords) {
+  for (const chord of chords) {
     currentKey = (chord.key && chord.key != 12) ? chord.key : currentKey;
     currentBpm = chord.bpm ? chord.bpm : currentBpm;
     chordsForMidi.push({
@@ -54,12 +54,12 @@ export const getChordPlayer = async () => {
   return async (chord: ChordForMidi) => {
     const length = chord.beats * 60 / chord.bpm;
     const notes = chordToNotes(chord);
-    for (let note of notes) {
+    for (const note of notes) {
       output.send([0x90, note, 127]);
     }
     await new Promise((resolve) => {
       setTimeout(() => {
-        for (let note of notes) {
+        for (const note of notes) {
           output.send([0x80, note, 127]);
         }
         resolve("end");
