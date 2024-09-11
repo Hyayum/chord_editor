@@ -10,10 +10,11 @@ interface Props {
   keySf: number;
   bpm: number;
   beats: number;
+  setIndex: (i: number) => void;
 };
 
 export default function ChordPreviewButton(props: Props) {
-  const { chords, keySf: key, bpm, beats } = props;
+  const { chords, keySf: key, bpm, beats, setIndex } = props;
   const [playing, setPlaying] = useState(false);
   const playingRef = useRef(playing);
   useEffect(() => {
@@ -25,8 +26,9 @@ export default function ChordPreviewButton(props: Props) {
     const chordsForMidi = getChordsForMidi(chords, key, bpm, beats);
     setPlaying(true);
     const playChord = await getChordPlayer();
-    for (const chord of chordsForMidi.slice(Math.max(startFrom - 1, 0))) {
-      await playChord(chord);
+    for (let i = Math.max(startFrom - 1, 0); i < chordsForMidi.length; i++) {
+      setIndex(i);
+      await playChord(chordsForMidi[i]);
       if (!playingRef.current) break;
     }
     setPlaying(false);

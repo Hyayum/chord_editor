@@ -1,0 +1,126 @@
+{
+  "default_beats": 2,
+  "bgcolor": "#ffffff",
+  "color": "#88ccee",
+  "chords": [
+    {
+      "bass": 4,
+      "shape": "1235",
+      "beats": 2,
+      "key": 1,
+      "bpm": 160
+    },
+    {
+      "bass": 5,
+      "shape": "1357",
+      "beats": 1,
+      "key": 12
+    },
+    {
+      "bass": 4,
+      "shape": "1246",
+      "beats": 1,
+      "key": 12
+    },
+    {
+      "bass": 3,
+      "shape": "1235",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 6,
+      "shape": "1457",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 2,
+      "shape": "1357",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 5,
+      "shape": "1235",
+      "beats": 2,
+      "key": 12,
+      "accd": [
+        -6
+      ]
+    },
+    {
+      "bass": 1,
+      "shape": "1245",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 6,
+      "shape": "1357",
+      "beats": 2,
+      "key": 12,
+      "accd": [
+        1
+      ]
+    },
+    {
+      "bass": 4,
+      "shape": "1357",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 4,
+      "shape": "1246",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 3,
+      "shape": "1357",
+      "beats": 2,
+      "key": 12,
+      "accd": [
+        -7
+      ]
+    },
+    {
+      "bass": 3,
+      "shape": "1346",
+      "beats": 2,
+      "key": 12,
+      "accd": [
+        -3,
+        1
+      ]
+    },
+    {
+      "bass": 2,
+      "shape": "1345",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 2,
+      "shape": "1346",
+      "beats": 2,
+      "key": 12,
+      "accd": [
+        -2
+      ]
+    },
+    {
+      "bass": 1,
+      "shape": "145",
+      "beats": 2,
+      "key": 12
+    },
+    {
+      "bass": 1,
+      "shape": "135",
+      "beats": 2,
+      "key": 12
+    }
+  ]
+}

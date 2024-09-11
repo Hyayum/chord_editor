@@ -27,7 +27,7 @@ export default function Home() {
   const [key, setKey] = useState(0);
   const [beats, setBeats] = useState(2);
   const [chords, setChords] = useState<Chord[]>([defaultChord]);
-  // const [nowPlaying, setNowPlaying] = useState(0);
+  const [nowPlaying, setNowPlaying] = useState(0);
 
   const keyOptions = [
     { label: "C", value: 0 },
@@ -74,7 +74,7 @@ export default function Home() {
       chords: chords,
     };
     if (!dlData.chords[0].bpm) { dlData.chords[0].bpm = bpm; }
-    if (!dlData.chords[0].key) { dlData.chords[0].key = key; }
+    if (!dlData.chords[0].key || 12) { dlData.chords[0].key = key; }
     const element = document.createElement("a");
     element.style.display = "none";
     const file = new Blob([JSON.stringify(dlData, undefined, 2)], { type: "application/json" });
@@ -115,7 +115,7 @@ export default function Home() {
   }, [chords]);
 
   const preview = async (i: number) => {
-    //setNowPlaying(i);
+    setNowPlaying(i);
     const playChord = await getChordPlayer();
     const chordsForMidi = getChordsForMidi(chords, key, bpm, beats);
     await playChord(chordsForMidi[i]);
@@ -236,14 +236,14 @@ export default function Home() {
             keySf={key}
             bpm={bpm}
             beats={beats}
+            setIndex={setNowPlaying}
           />
         </Grid>
         <Grid size={12}>
           {chords.map((chord, i) => (
             <Box sx={{ display: "flex" }} key={i}>
               <IconButton
-                // color={i == nowPlaying ? "warning" : "primary"} <- 重くなる
-                color="primary"
+                color={i == nowPlaying ? "warning" : "primary"}
                 size="small"
                 onClick={() => preview(i)}
                 sx={{ mr: 1 }}
