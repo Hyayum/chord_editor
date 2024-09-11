@@ -306,6 +306,15 @@ const ShapeSelector = ({
           <Tab label="その他" value={3} />
         </Tabs>
         <Box sx={{ m: 1 }}>
+          <Box sx={{ display: "flex", my: 1 }}>
+            {[1,7,6,5,4,3,2].map((n) => (
+              <Box sx={{ width: 70 }} key={n}>
+                <Typography variant="subtitle2" sx={{ textAlign: "center" }}>
+                  {n}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
           {basicShapes[tabValue].map((basic) => (
             <Box sx={{ display: "flex" }} key={basic}>
               {Array(7).fill(0).map((z, n) => {
