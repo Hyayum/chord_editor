@@ -1,3 +1,4 @@
+import * as Tone from "tone";
 import { Chord } from "@/lib/types";
 
 interface ChordForMidi {
@@ -8,6 +9,22 @@ interface ChordForMidi {
   shape: string;
   accd?: number[];
   beats: number;
+};
+
+const toneSettings = {
+  urls: ["C", "D#", "F#", "A"].reduce((obj, k) => {
+    const addObj = [2, 3, 4, 5].reduce((obj, n) => ({
+      ...obj, 
+      [`${k}${n}`]: `${k.replace("#", "s")}${n}.mp3`,
+    }), {});
+    return { ...obj, ...addObj };
+  }, {}),
+  baseUrl: "https://tonejs.github.io/audio/salamander/",
+};
+
+const notesNumToName = (notes: number[]) => {
+  const names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  return notes.map((n) => `${names[n % 12]}${Math.floor(n / 12)}`);
 };
 
 const fitRange = (n: number, min: number, width: number) => {
@@ -45,34 +62,20 @@ const chordToNotes = (chord: ChordForMidi) => {
     const note12 = keyUd + scale[scaleIndex];
     return fitRange(note12, 53, 12); // high 53(F3) ~ 64(E4)
   });
-  return [bassNote, ...highNotes];
+  return notesNumToName([bassNote, ...highNotes]);
 };
 
 export const getChordPlayer = async () => {
-  const midi = await window.navigator.requestMIDIAccess();
-  const output = Array.from(midi.outputs)[0][1];
+  const synth = new Tone.Sampler(toneSettings).toDestination();
+  await Tone.loaded();
   return async (chord: ChordForMidi) => {
     const length = chord.beats * 60 / chord.bpm;
     const notes = chordToNotes(chord);
-    for (const note of notes) {
-      output.send([0x90, note, 127]);
-    }
+    synth.triggerAttackRelease(notes, length + 0.1);
     await new Promise((resolve) => {
       setTimeout(() => {
-        for (const note of notes) {
-          output.send([0x80, note, 127]);
-        }
         resolve("end");
       }, length * 1000);
     });
   };
-};
-
-export const stopMidi = () => {
-  window.navigator.requestMIDIAccess().then((midi) => {
-    const output = Array.from(midi.outputs)[0][1];
-    for (let i = 0; i < 128; i++) {
-      output.send([0x80, i, 127]);
-    }
-  });
 };

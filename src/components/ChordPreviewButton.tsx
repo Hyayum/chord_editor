@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import { Stop, PlayArrow } from "@mui/icons-material";
 import { useEffect, useState, useRef } from "react";
 import { Chord } from "@/lib/types";
-import { getChordPlayer, getChordsForMidi, stopMidi } from "@/lib/midi";
+import { getChordPlayer, getChordsForMidi } from "@/lib/midi";
 import NumberField from "@/components/NumberField";
 
 interface Props {
@@ -36,7 +36,6 @@ export default function ChordPreviewButton(props: Props) {
 
   const stopPlayer = () => {
     setPlaying(false);
-    stopMidi();
   };
 
   return (

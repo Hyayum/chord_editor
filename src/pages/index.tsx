@@ -147,9 +147,6 @@ export default function Home() {
               </Typography>
             ))}
           </Box>
-          <Typography variant="subtitle2">
-            音の再生にはMIDI環境が必要です
-          </Typography>
         </Grid>
         <Grid size={12}>
           <Box sx={{ display: "flex" }}>
