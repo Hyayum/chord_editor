@@ -116,7 +116,9 @@ export default function Home() {
 
   const preview = async (i: number) => {
     setNowPlaying(i);
+    setLoading(true);
     const playChord = await getChordPlayer();
+    setLoading(false);
     const chordsForMidi = getChordsForMidi(chords, key, bpm, beats);
     await playChord(chordsForMidi[i]);
   };
@@ -234,6 +236,7 @@ export default function Home() {
             bpm={bpm}
             beats={beats}
             setIndex={setNowPlaying}
+            setLoading={setLoading}
           />
         </Grid>
         <Grid size={12}>

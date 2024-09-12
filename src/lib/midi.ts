@@ -12,13 +12,10 @@ interface ChordForMidi {
 };
 
 const toneSettings = {
-  urls: ["C", "D#", "F#", "A"].reduce((obj, k) => {
-    const addObj = [2, 3, 4, 5].reduce((obj, n) => ({
-      ...obj, 
-      [`${k}${n}`]: `${k.replace("#", "s")}${n}.mp3`,
-    }), {});
-    return { ...obj, ...addObj };
-  }, {}),
+  urls: ["F#2", "A2", "C3", "D#3", "F#3", "A3", "C4", "D#4", "F#4", "A4", "C5", "D#5"].reduce((obj, k) => ({
+    ...obj,
+    [`${k}`]: `${k.replace("#", "s")}.mp3`,
+  }), {}),
   baseUrl: "https://tonejs.github.io/audio/salamander/",
 };
 
