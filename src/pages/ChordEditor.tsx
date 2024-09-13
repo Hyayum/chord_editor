@@ -14,11 +14,13 @@ import {
 } from "@mui/material";
 import { useRef, useState } from "react";
 import { Chord, keyOptions, defaultChord } from "@/lib/types";
+import { accdNumToSf, calcMainFunc, calcScaleLevel, calcRealname } from "@/lib/utils";
 import NumberField from "@/components/NumberField";
 
 interface Props {
   index: number;
   chord: Chord;
+  keySf: number;
   defaultBeats: number;
   onChange: (c: Chord) => void;
   addChord: () => void;
@@ -26,7 +28,7 @@ interface Props {
 };
 
 export default function ChordEditor(props: Props) {
-  const { index, chord = defaultChord, defaultBeats, onChange, addChord, removeChord } = props;
+  const { index, chord = defaultChord, keySf: key, defaultBeats, onChange, addChord, removeChord } = props;
 
   const [openShape, setOpenShape] = useState(false);
   const shapeRef = useRef<HTMLInputElement>(null);
@@ -37,40 +39,6 @@ export default function ChordEditor(props: Props) {
   const accdRef = useRef<HTMLInputElement>(null);
   const handleCloseAccd = () => {
     setOpenAccd(false);
-  };
-
-  const numToAccd = (n: number) => {
-    if (n > 0) return `${n}＃`;
-    else if (n < 0) return `${-n}♭`;
-    else return `${n}`;
-  };
-
-  const calcMainFunc = () => {
-    const arr = Array.from(chord.shape).map((n) => Number(n));
-    const points = arr.map((n) => {
-      let p = 0;
-      if (n == 1) { p += 2; }
-      if (arr.includes((n + 1) % 7 + 1)) { p += 2; }
-      if (arr.includes((n + 3) % 7 + 1)) { p += 3; }
-      if (arr.includes((n + 5) % 7 + 1)) { p += 1; }
-      return { num: n, point: p };
-    });
-    const maxPoint = points.reduce((max, val) => Math.max(val.point, max), 0);
-    const firstMainFunc = points.filter((p) => p.point == maxPoint).map((p) => (p.num + chord.bass - 2) % 7 + 1).join(",");
-    const secondMainFunc = points.filter((p) => p.point == maxPoint - 1).map((p) => (p.num + chord.bass - 2) % 7 + 1).join(",");
-    return `${firstMainFunc}${secondMainFunc && "/"}${secondMainFunc}`;
-  };
-
-  const calcScaleLevel = () => {
-    const marks = ["α", "β", "γ", "δ", "ε", "ζ", "η"];
-    const baseCircle = [1, 3, 5, 0, 2, 4, 6];
-    const circle = baseCircle.map((n, i) => 
-      chord.accd?.includes(i + 1) ? n + 7 :
-      chord.accd?.includes(-i - 1) ? n - 7 : n
-    );
-    const range = Math.max(...circle) - Math.min(...circle);
-    if (range == 6) { return "-"; }
-    return `${marks[range % 7]}${Math.floor((range - 7) / 7) > 0 ? Math.floor((range - 7) / 7) + 1 : ""}`;
   };
 
   return (
@@ -121,7 +89,7 @@ export default function ChordEditor(props: Props) {
 
         <Box sx={{ width: 80 }}>
           <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.5 }}>
-            {calcMainFunc()}
+            {calcMainFunc(chord.bass, chord.shape)}
           </Typography>
         </Box>
 
@@ -130,7 +98,7 @@ export default function ChordEditor(props: Props) {
             id="accd"
             label="変位"
             size="small"
-            value={chord.accd?.sort().map(numToAccd).join(", ") || ""}
+            value={chord.accd?.sort().map(accdNumToSf).join(", ") || ""}
             inputRef={accdRef}
             onClick={() => setOpenAccd(true)}
             inputProps={{ readOnly: true }}
@@ -152,7 +120,7 @@ export default function ChordEditor(props: Props) {
 
         <Box sx={{ width: 60 }}>
           <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.5 }}>
-            {calcScaleLevel()}
+            {calcScaleLevel(chord.accd)}
           </Typography>
         </Box>
 
@@ -247,6 +215,14 @@ export default function ChordEditor(props: Props) {
         >
           削除
         </Button>
+      </Box>
+      <Box sx={{ display: "flex", mt: 0.5 }}>
+        <Box sx={{ width: 30 }}></Box>
+        <Box sx={{ width: 100 }}>
+          <Typography variant="subtitle2">
+            {calcRealname(key, chord.bass, chord.shape, chord.accd)}
+          </Typography>
+        </Box>
       </Box>
     </Paper>
   );

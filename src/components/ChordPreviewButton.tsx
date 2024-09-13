@@ -1,21 +1,18 @@
 import { Box, Button } from "@mui/material";
 import { Stop, PlayArrow } from "@mui/icons-material";
 import { useEffect, useState, useRef } from "react";
-import { Chord } from "@/lib/types";
-import { getChordPlayer, getChordsForMidi } from "@/lib/midi";
+import { ChordForUtils } from "@/lib/types";
+import { getChordPlayer } from "@/lib/midi";
 import NumberField from "@/components/NumberField";
 
 interface Props {
-  chords: Chord[];
-  keySf: number;
-  bpm: number;
-  beats: number;
+  chords: ChordForUtils[];
   setIndex: (i: number) => void;
   setLoading: (i: boolean) => void;
 };
 
 export default function ChordPreviewButton(props: Props) {
-  const { chords, keySf: key, bpm, beats, setIndex, setLoading } = props;
+  const { chords, setIndex, setLoading } = props;
   const [playing, setPlaying] = useState(false);
   const playingRef = useRef(playing);
   useEffect(() => {
@@ -24,14 +21,13 @@ export default function ChordPreviewButton(props: Props) {
   const [startFrom, setStartFrom] = useState(1);
 
   const previewAll = async () => {
-    const chordsForMidi = getChordsForMidi(chords, key, bpm, beats);
     setLoading(true);
     const playChord = await getChordPlayer();
     setLoading(false);
     setPlaying(true);
-    for (let i = Math.max(startFrom - 1, 0); i < chordsForMidi.length; i++) {
+    for (let i = Math.max(startFrom - 1, 0); i < chords.length; i++) {
       setIndex(i);
-      await playChord(chordsForMidi[i]);
+      await playChord(chords[i]);
       if (!playingRef.current) break;
     }
     setPlaying(false);

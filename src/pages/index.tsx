@@ -14,8 +14,9 @@ import { useRef, useState, useEffect } from "react";
 import ChordEditor from "./ChordEditor";
 import NumberField from "@/components/NumberField";
 import ChordPreviewButton from "@/components/ChordPreviewButton";
-import { getChordPlayer, getChordsForMidi } from "@/lib/midi";
-import { Chord, defaultChord } from "@/lib/types";
+import { getChordPlayer } from "@/lib/midi";
+import { getChordsForUtils } from "@/lib/utils";
+import { Chord, defaultChord, keyOptions } from "@/lib/types";
 import Link from "next/link";
 
 export default function Home() {
@@ -29,20 +30,7 @@ export default function Home() {
   const [chords, setChords] = useState<Chord[]>([defaultChord]);
   const [nowPlaying, setNowPlaying] = useState(0);
 
-  const keyOptions = [
-    { label: "C", value: 0 },
-    { label: "D♭", value: -5 },
-    { label: "D", value: 2 },
-    { label: "E♭", value: -3 },
-    { label: "E", value: 4 },
-    { label: "F", value: -1 },
-    { label: "G♭", value: -6 },
-    { label: "G", value: 1 },
-    { label: "A♭", value: -4 },
-    { label: "A", value: 3 },
-    { label: "B♭", value: -2 },
-    { label: "B", value: 5 },
-  ];
+  const chordsForUtils = getChordsForUtils(chords, key, bpm, beats);
 
   const onChangeChord = (chord: Chord, i: number) => {
     const newChords = [...chords];
@@ -119,8 +107,7 @@ export default function Home() {
     setLoading(true);
     const playChord = await getChordPlayer();
     setLoading(false);
-    const chordsForMidi = getChordsForMidi(chords, key, bpm, beats);
-    await playChord(chordsForMidi[i]);
+    await playChord(chordsForUtils[i]);
   };
 
   const links = [
@@ -231,10 +218,7 @@ export default function Home() {
         </Grid>
         <Grid size={12}>
           <ChordPreviewButton
-            chords={chords}
-            keySf={key}
-            bpm={bpm}
-            beats={beats}
+            chords={chordsForUtils}
             setIndex={setNowPlaying}
             setLoading={setLoading}
           />
@@ -253,6 +237,7 @@ export default function Home() {
               <ChordEditor
                 index={i + 1}
                 chord={chord}
+                keySf={chordsForUtils[i].key}
                 defaultBeats={beats}
                 onChange={(c: Chord) => onChangeChord(c, i)}
                 addChord={() => addChord(i)}
