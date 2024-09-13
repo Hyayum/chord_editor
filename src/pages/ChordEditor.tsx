@@ -49,7 +49,12 @@ export default function ChordEditor(props: Props) {
   return (
     <Paper elevation={2} sx={{ pl: 0, pr: 1, py: 0.1,  my: 0.1 }}>
       <Box sx={{ display: "flex" }}>
-        <Box sx={{ width: 230 }}></Box>
+        <Box sx={{ width: 130 }}></Box>
+        <Box sx={{ minWidth: 100 }}>
+          <Typography variant="subtitle2" sx={{ textAlign: "center", color: "#aaa" }}>
+            {Array.from(chord.shape).map((n) => (Number(n) + chord.bass - 2) % 7 + 1).join("")}
+          </Typography>
+        </Box>
         <Box sx={{ width: 80 }}>
           <Typography variant="subtitle2" sx={{ textAlign: "center", color: udColor }}>
             {chordUd}
@@ -233,7 +238,7 @@ export default function ChordEditor(props: Props) {
 
       <Box sx={{ display: "flex" }}>
         <Box sx={{ width: 130 }}></Box>
-        <Box sx={{ minWidth: 100 }}>
+        <Box sx={{ minWidth: 100, whiteSpace: "pre-wrap" }}>
           <Typography variant="subtitle2" sx={{ textAlign: "center", color: "#888" }}>
             {calcRealname(key, chord.bass, chord.shape, chord.accd)}
           </Typography>

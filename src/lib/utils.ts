@@ -68,7 +68,8 @@ export const calcRealname = (key: number, bass: number, shape: string, accd: num
       location < 0 ? Array(-Math.floor(location / 7)).fill("b").join("") : "";
     return `${name}${sf}`;
   });
-  return notes.join(" ");
+  const numToName: { [k: number]: string } = Array.from(shape).reduce((obj, n, i) => ({ ...obj, [Number(n)]: notes[i] }), {});
+  return Array(7).fill(0).map((z, i) => numToName[i + 1] || " ").join("");
 };
 
 export const calcChordProg = (prev: Chord | ChordForUtils, current: Chord | ChordForUtils) => {
