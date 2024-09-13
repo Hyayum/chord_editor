@@ -13,8 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { Chord, keyOptions, defaultChord } from "@/lib/types";
-import { accdNumToSf, calcMainFunc, calcScaleLevel, calcRealname } from "@/lib/utils";
+import { Chord, keyOptions, defaultChord, keyColors } from "@/lib/types";
+import { accdNumToSf, fitRange, calcMainFunc, calcScaleLevel, calcRealname } from "@/lib/utils";
 import NumberField from "@/components/NumberField";
 
 interface Props {
@@ -87,8 +87,8 @@ export default function ChordEditor(props: Props) {
           onClose={handleCloseShape}
         />
 
-        <Box sx={{ width: 80 }}>
-          <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.5 }}>
+        <Box sx={{ width: 80, bgcolor: keyColors[fitRange(key, 0, 12)], borderRadius: 3 }}>
+          <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.4 }}>
             {calcMainFunc(chord.bass, chord.shape)}
           </Typography>
         </Box>
@@ -125,6 +125,32 @@ export default function ChordEditor(props: Props) {
         </Box>
 
         <Box sx={{ width: 100 }}>
+          <TextField
+            select
+            id="key"
+            label="キー変更"
+            size="small"
+            value={chord.key ?? 12}
+            onChange={(e) => onChange({ ...chord, key: Number(e.target.value) })}
+            fullWidth
+            slotProps={{
+              inputLabel: {
+                shrink: true,
+              },
+            }}
+          >
+            <MenuItem value={12}>
+              -
+            </MenuItem>
+            {keyOptions.map((k) => (
+              <MenuItem key={k.value} value={k.value}>
+                {k.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Box>
+
+        <Box sx={{ width: 100 }}>
           <NumberField
             id="beats"
             label="拍数"
@@ -154,32 +180,6 @@ export default function ChordEditor(props: Props) {
               },
             }}
           />
-        </Box>
-
-        <Box sx={{ width: 100 }}>
-          <TextField
-            select
-            id="key"
-            label="キー変更"
-            size="small"
-            value={chord.key ?? 12}
-            onChange={(e) => onChange({ ...chord, key: Number(e.target.value) })}
-            fullWidth
-            slotProps={{
-              inputLabel: {
-                shrink: true,
-              },
-            }}
-          >
-            <MenuItem value={12}>
-              -
-            </MenuItem>
-            {keyOptions.map((k) => (
-              <MenuItem key={k.value} value={k.value}>
-                {k.label}
-              </MenuItem>
-            ))}
-          </TextField>
         </Box>
 
         <Box sx={{ width: 180 }}>
