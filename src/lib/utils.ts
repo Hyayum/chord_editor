@@ -68,7 +68,7 @@ export const calcRealname = (key: number, bass: number, shape: string, accd: num
       location < 0 ? Array(-Math.floor(location / 7)).fill("b").join("") : "";
     return `${name}${sf}`;
   });
-  return notes.join(", ");
+  return notes.join(" ");
 };
 
 export const calcChordProg = (prev: Chord | ChordForUtils, current: Chord | ChordForUtils) => {

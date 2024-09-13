@@ -233,7 +233,7 @@ export default function ChordEditor(props: Props) {
 
       <Box sx={{ display: "flex" }}>
         <Box sx={{ width: 130 }}></Box>
-        <Box sx={{ width: 100 }}>
+        <Box sx={{ minWidth: 100 }}>
           <Typography variant="subtitle2" sx={{ textAlign: "center", color: "#888" }}>
             {calcRealname(key, chord.bass, chord.shape, chord.accd)}
           </Typography>
