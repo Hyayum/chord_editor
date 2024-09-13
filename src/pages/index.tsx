@@ -238,6 +238,7 @@ export default function Home() {
                 index={i + 1}
                 chord={chord}
                 keySf={chordsForUtils[i].key}
+                prevChord={i > 0 ? chordsForUtils[i - 1] : null}
                 defaultBeats={beats}
                 onChange={(c: Chord) => onChangeChord(c, i)}
                 addChord={() => addChord(i)}

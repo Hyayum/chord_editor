@@ -38,9 +38,9 @@ export const calcMainFunc = (bass: number, shape: string) => {
     return { num: n, point: p };
   });
   const maxPoint = points.reduce((max, val) => Math.max(val.point, max), 0);
-  const firstMainFunc = points.filter((p) => p.point == maxPoint).map((p) => (p.num + bass - 2) % 7 + 1).join(",");
-  const secondMainFunc = points.filter((p) => p.point == maxPoint - 1).map((p) => (p.num + bass - 2) % 7 + 1).join(",");
-return `${firstMainFunc}${secondMainFunc && "/"}${secondMainFunc}`;
+  const firstMainFunc = points.filter((p) => p.point == maxPoint).map((p) => (p.num + bass - 2) % 7 + 1);
+  const secondMainFunc = points.filter((p) => p.point == maxPoint - 1).map((p) => (p.num + bass - 2) % 7 + 1);
+  return { first: firstMainFunc, second: secondMainFunc };
 };
 
 export const calcScaleLevel = (accd: number[] = []) => {
@@ -69,4 +69,18 @@ export const calcRealname = (key: number, bass: number, shape: string, accd: num
     return `${name}${sf}`;
   });
   return notes.join(", ");
+};
+
+export const calcChordProg = (prev: Chord | ChordForUtils, current: Chord | ChordForUtils) => {
+  const prevMainFunc = calcMainFunc(prev.bass, prev.shape).first;
+  const currentMainFunc = calcMainFunc(current.bass, current.shape).first;
+  const keyDiff = fitRange((current.key ?? 0) - (prev.key ?? 0), -6, 12) * 4
+  const diffs = [];
+  for (const pre of prevMainFunc) {
+    for (const cur of currentMainFunc) {
+      diffs.push(fitRange((cur - pre + keyDiff) * (-3), -3, 7));
+    }
+  }
+  const diff = Math.round(10 * diffs.reduce((sum, d) => sum + d, 0) / diffs.length) / 10;
+  return diff > 0 ? `u${diff}` : diff < 0 ? `d${-diff}` : "0";
 };

@@ -13,14 +13,15 @@ import {
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { Chord, keyOptions, defaultChord, keyColors } from "@/lib/types";
-import { accdNumToSf, fitRange, calcMainFunc, calcScaleLevel, calcRealname } from "@/lib/utils";
+import { Chord, ChordForUtils, keyOptions, defaultChord, keyColors } from "@/lib/types";
+import { accdNumToSf, fitRange, calcMainFunc, calcScaleLevel, calcRealname, calcChordProg } from "@/lib/utils";
 import NumberField from "@/components/NumberField";
 
 interface Props {
   index: number;
   chord: Chord;
   keySf: number;
+  prevChord?: ChordForUtils | null;
   defaultBeats: number;
   onChange: (c: Chord) => void;
   addChord: () => void;
@@ -28,7 +29,7 @@ interface Props {
 };
 
 export default function ChordEditor(props: Props) {
-  const { index, chord = defaultChord, keySf: key, defaultBeats, onChange, addChord, removeChord } = props;
+  const { index, chord = defaultChord, keySf: key, prevChord = null, defaultBeats, onChange, addChord, removeChord } = props;
 
   const [openShape, setOpenShape] = useState(false);
   const shapeRef = useRef<HTMLInputElement>(null);
@@ -41,8 +42,21 @@ export default function ChordEditor(props: Props) {
     setOpenAccd(false);
   };
 
+  const mainFunc = calcMainFunc(chord.bass, chord.shape);
+  const chordUd = prevChord ? calcChordProg(prevChord, { ...chord, key: key }) : "0";
+  const udColor = chordUd.match(/^u/) ? "#f88" : chordUd.match(/^d/) ? "#88f" : "#ccc";
+
   return (
     <Paper elevation={2} sx={{ p: 1, pl: 0, my: 1 }}>
+      <Box sx={{ display: "flex" }}>
+        <Box sx={{ width: 230 }}></Box>
+        <Box sx={{ width: 80 }}>
+          <Typography variant="subtitle2" sx={{ textAlign: "center", color: udColor }}>
+            {chordUd}
+          </Typography>
+        </Box>
+      </Box>
+
       <Box sx={{ display: "flex" }}>
         <Box sx={{ width: 30 }}>
           <Typography variant="subtitle2" sx={{ color: "#aaa", textAlign: "center", mt: 1.1 }}>
@@ -89,7 +103,7 @@ export default function ChordEditor(props: Props) {
 
         <Box sx={{ width: 80, bgcolor: keyColors[fitRange(key, 0, 12)], borderRadius: 3 }}>
           <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.4 }}>
-            {calcMainFunc(chord.bass, chord.shape)}
+            {`${mainFunc.first.join(",")}${mainFunc.second.length ? "/" + mainFunc.second.join(",") : ""}`}
           </Typography>
         </Box>
 
@@ -216,10 +230,11 @@ export default function ChordEditor(props: Props) {
           削除
         </Button>
       </Box>
-      <Box sx={{ display: "flex", mt: 0.5 }}>
-        <Box sx={{ width: 30 }}></Box>
+
+      <Box sx={{ display: "flex" }}>
+        <Box sx={{ width: 130 }}></Box>
         <Box sx={{ width: 100 }}>
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle2" sx={{ textAlign: "center", color: "#888" }}>
             {calcRealname(key, chord.bass, chord.shape, chord.accd)}
           </Typography>
         </Box>
