@@ -47,7 +47,7 @@ export default function ChordEditor(props: Props) {
   const udColor = chordUd.match(/^u/) ? "#f88" : chordUd.match(/^d/) ? "#88f" : "#ccc";
 
   return (
-    <Paper elevation={2} sx={{ p: 1, pl: 0, my: 0.1 }}>
+    <Paper elevation={2} sx={{ pl: 0, pr: 1, py: 0.1,  my: 0.1 }}>
       <Box sx={{ display: "flex" }}>
         <Box sx={{ width: 230 }}></Box>
         <Box sx={{ width: 80 }}>
