@@ -14,7 +14,7 @@ import { useRef, useState, useEffect } from "react";
 import ChordEditor from "./ChordEditor";
 import NumberField from "@/components/NumberField";
 import ChordPreviewButton from "@/components/ChordPreviewButton";
-import { getChordPlayer } from "@/lib/midi";
+import { getChordPlayer, createMidi } from "@/lib/midi";
 import { getChordsForUtils } from "@/lib/utils";
 import { Chord, defaultChord, keyOptions } from "@/lib/types";
 import Link from "next/link";
@@ -101,6 +101,18 @@ export default function Home() {
   useEffect(() => {
     setLoading(false);
   }, [chords]);
+
+  const downloadMidi = () => {
+    const data = createMidi(chordsForUtils);
+    const element = document.createElement("a");
+    element.style.display = "none";
+    const file = new Blob([data], { type: "audio/midi" });
+    element.href = URL.createObjectURL(file);
+    element.download = `${filename}.mid`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
 
   const preview = async (i: number) => {
     setNowPlaying(i);
@@ -213,6 +225,15 @@ export default function Home() {
               onClick={() => inputRef.current?.click()}
             >
               JSON読み込み
+            </Button>
+            <Button
+              color="warning"
+              variant="contained"
+              size="small"
+              onClick={downloadMidi}
+              sx={{ mx: 1 }}
+            >
+              MIDI作成
             </Button>
           </Box>
         </Grid>

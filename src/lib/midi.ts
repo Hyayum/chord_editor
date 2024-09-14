@@ -1,4 +1,5 @@
 import * as Tone from "tone";
+import MidiWriter from "midi-writer-js";
 import { ChordForUtils } from "@/lib/types";
 import { fitRange } from "@/lib/utils";
 
@@ -45,4 +46,18 @@ export const getChordPlayer = async () => {
       }, length * 1000);
     });
   };
+};
+
+export const createMidi = (chords: ChordForUtils[]) => {
+  const track = new MidiWriter.Track();
+  let currentBpm = 0;
+  for (const chord of chords) {
+    if (chord.bpm != currentBpm) {
+      currentBpm = chord.bpm;
+      track.addEvent(new MidiWriter.TempoEvent({ bpm: chord.bpm }));
+    }
+    const notes = chordToNotes(chord);
+    track.addEvent(new MidiWriter.NoteEvent({ pitch: notes, duration: `T${128 * chord.beats}`, velocity: 79 }));
+  }
+  return new MidiWriter.Writer(track).buildFile();
 };
