@@ -1,4 +1,5 @@
 import { Chord, ChordForUtils } from "@/lib/types";
+import { fifthCircleIndex, fifthCircle, accdMarks } from "@/lib/scale";
 
 export const accdNumToSf = (n: number) => {
   if (n > 0) return `${n}＃`;
@@ -44,26 +45,23 @@ export const calcMainFunc = (bass: number, shape: string) => {
 };
 
 export const calcScaleLevel = (accd: number[] = []) => {
-  const marks = ["α", "β", "γ", "δ", "ε", "ζ", "η"];
-  const baseCircle = [1, 3, 5, 0, 2, 4, 6];
-  const circle = baseCircle.map((n, i) => 
+  const circle = fifthCircleIndex.map((n, i) => 
     accd.includes(i + 1) ? n + 7 :
     accd.includes(-i - 1) ? n - 7 : n
   );
   const range = Math.max(...circle) - Math.min(...circle);
   if (range == 6) { return "-"; }
-  return `${marks[range % 7]}${Math.floor((range - 7) / 7) > 0 ? Math.floor((range - 7) / 7) + 1 : ""}`;
+  return `${accdMarks[range % 7]}${Math.floor((range - 7) / 7) > 0 ? Math.floor((range - 7) / 7) + 1 : ""}`;
 };
 
 export const calcRealname = (key: number, bass: number, shape: string, accd: number[] = []) => {
-  const baseCircle = ["F", "C", "G", "D", "A", "E", "B"];
-  const locations = [1, 3, 5, 0, 2, 4, 6].map((n, i) => n + key + (
+  const locations = fifthCircleIndex.map((n, i) => n + key + (
     accd.includes(i + 1) ? 7 :
     accd.includes(-i - 1) ? -7 : 0
   ));
   const notes = Array.from(shape).map((n) => Number(n) + bass - 1).map((n) => {
     const location = locations[(n - 1) % 7];
-    const name = baseCircle[fitRange(location, 0, 7)];
+    const name = fifthCircle[fitRange(location, 0, 7)];
     const sf = location > 0 ? Array(Math.floor(location / 7)).fill("#").join("").replace(/##/g, "×") : 
       location < 0 ? Array(-Math.floor(location / 7)).fill("b").join("") : "";
     return `${name}${sf}`;

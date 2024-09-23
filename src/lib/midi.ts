@@ -2,6 +2,7 @@ import * as Tone from "tone";
 import MidiWriter from "midi-writer-js";
 import { ChordForUtils } from "@/lib/types";
 import { fitRange } from "@/lib/utils";
+import { basicScale, noteNames } from "@/lib/scale";
 
 const toneSettings = {
   urls: ["F#2", "A2", "C3", "D#3", "F#3", "A3", "C4", "D#4", "F#4", "A4", "C5", "D#5"].reduce((obj, k) => ({
@@ -12,13 +13,11 @@ const toneSettings = {
 };
 
 const notesNumToName = (notes: number[]) => {
-  const names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-  return notes.map((n) => `${names[n % 12]}${Math.floor(n / 12)}`);
+  return notes.map((n) => `${noteNames[n % 12]}${Math.floor(n / 12)}`);
 };
 
 const chordToNotes = (chord: ChordForUtils) => {
-  const baseScale = [0, 2, 4, 5, 7, 9, 11];
-  const scale = baseScale.map((n, i) => 
+  const scale = basicScale.map((n, i) => 
     chord.accd?.includes(i + 1) ? n + 1 : 
     chord.accd?.includes(-i - 1) ? n - 1 : n
   );
