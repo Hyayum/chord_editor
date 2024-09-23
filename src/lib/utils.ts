@@ -16,7 +16,7 @@ export const getChordsForUtils = (chords: Chord[], key: number, bpm: number, bea
   let currentKey = key;
   let currentBpm = bpm;
   for (const chord of chords) {
-    currentKey = (chord.key && chord.key != 12) ? chord.key : currentKey;
+    currentKey = (chord.key !== undefined && chord.key != 12) ? chord.key : currentKey;
     currentBpm = chord.bpm ? chord.bpm : currentBpm;
     chordsForMidi.push({
       ...chord,
