@@ -30,7 +30,6 @@ interface Props {
 
 const ChordEditor = (props: Props) => {
   const { index, chord = defaultChord, keySf: key, prevChord = null, defaultBeats, onChange, addChord, removeChord } = props;
-  console.log("render", index)
 
   const [openShape, setOpenShape] = useState(false);
   const shapeRef = useRef<HTMLInputElement>(null);
