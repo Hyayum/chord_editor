@@ -280,7 +280,7 @@ export default function Home() {
         </Grid>
       </Grid>
       <Backdrop open={loading}>
-        <CircularProgress color="success" />
+        <CircularProgress sx={{ color: "white" }} />
       </Backdrop>
     </>
   );

@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useRef, useState, Component } from "react";
 import { Chord, ChordForUtils, keyOptions, defaultChord, keyColors } from "@/lib/types";
 import { accdNumToSf, fitRange, calcMainFunc, calcScaleLevel, calcRealname, calcChordProg } from "@/lib/utils";
 import NumberField from "@/components/NumberField";
@@ -28,8 +28,9 @@ interface Props {
   removeChord: () => void;
 };
 
-export default function ChordEditor(props: Props) {
+const ChordEditor = (props: Props) => {
   const { index, chord = defaultChord, keySf: key, prevChord = null, defaultBeats, onChange, addChord, removeChord } = props;
+  console.log("render", index)
 
   const [openShape, setOpenShape] = useState(false);
   const shapeRef = useRef<HTMLInputElement>(null);
@@ -399,4 +400,27 @@ const AccdSelector = ({
       </Paper>
     </Popover>
   );
+};
+
+export default class ChordEditorComponent extends Component {
+  props: Props;
+
+  constructor(props: Props) {
+    super(props);
+    this.props = props;
+  };
+
+  shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+    return this.props.index != nextProps.index ||
+      JSON.stringify(this.props.chord) != JSON.stringify(nextProps.chord) ||
+      this.props.keySf != nextProps.keySf ||
+      JSON.stringify(this.props.prevChord) != JSON.stringify(nextProps.prevChord) ||
+      this.props.defaultBeats != nextProps.defaultBeats;
+  };
+
+  render() {
+    return (
+      <ChordEditor {...this.props} />
+    );
+  };
 };
