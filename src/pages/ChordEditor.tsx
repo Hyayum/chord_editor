@@ -44,7 +44,10 @@ export default function ChordEditor(props: Props) {
 
   const mainFunc = calcMainFunc(chord.bass, chord.shape);
   const chordUd = prevChord ? calcChordProg(prevChord, { ...chord, key: key }) : "0";
-  const udColor = chordUd.match(/^u/) ? "#f88" : chordUd.match(/^d/) ? "#88f" : "#ccc";
+  const udColor = chordUd.match(/^u3\.|^d3\./) ? "#f8f" :
+    chordUd.match(/^u0|^d0/) ? "#dad" :
+    chordUd.match(/^u/) ? "#f88" :
+    chordUd.match(/^d/) ? "#88f" : "#ccc";
 
   return (
     <Paper elevation={2} sx={{ pl: 0, pr: 1, py: 0.1,  my: 0.1 }}>

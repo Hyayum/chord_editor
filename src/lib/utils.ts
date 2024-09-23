@@ -72,16 +72,37 @@ export const calcRealname = (key: number, bass: number, shape: string, accd: num
   return Array(7).fill(0).map((z, i) => numToName[i + 1] || " ").join("");
 };
 
+const circleAverage = (values: { value: number, weight: number }[], min: number, width: number) => {
+  const xs = [];
+  const ys = [];
+  for (const v of values) {
+    xs.push(Math.cos(v.value * 2 * Math.PI / width) * v.weight);
+    ys.push(Math.sin(v.value * 2 * Math.PI / width) * v.weight);
+  }
+  const xSum = xs.reduce((sum, n) => sum + n, 0);
+  const ySum = ys.reduce((sum, n) => sum + n, 0);
+  const result = width * Math.atan2(ySum, xSum) / (2 * Math.PI);
+  return fitRange(result, min, width);
+};
+
 export const calcChordProg = (prev: Chord | ChordForUtils, current: Chord | ChordForUtils) => {
-  const prevMainFunc = calcMainFunc(prev.bass, prev.shape).first;
-  const currentMainFunc = calcMainFunc(current.bass, current.shape).first;
+  const prevMainFunc = calcMainFunc(prev.bass, prev.shape);
+  const currentMainFunc = calcMainFunc(current.bass, current.shape);
+  const prevFuncs = [
+    ...prevMainFunc.first.map((f) => ({ func: f, rank: 1 })),
+    ...prevMainFunc.second.map((f) => ({ func: f, rank: 2 })),
+  ];
+  const currentFuncs = [
+    ...currentMainFunc.first.map((f) => ({ func: f, rank: 1 })),
+    ...currentMainFunc.second.map((f) => ({ func: f, rank: 2 })),
+  ];
   const keyDiff = fitRange((current.key ?? 0) - (prev.key ?? 0), -6, 12) * 4
   const diffs = [];
-  for (const pre of prevMainFunc) {
-    for (const cur of currentMainFunc) {
-      diffs.push(fitRange((cur - pre + keyDiff) * (-3), -3, 7));
+  for (const pre of prevFuncs) {
+    for (const cur of currentFuncs) {
+      diffs.push({ value: fitRange((cur.func - pre.func + keyDiff) * (-3), -3, 7), weight: 1 / (cur.rank * pre.rank) });
     }
   }
-  const diff = Math.round(10 * diffs.reduce((sum, d) => sum + d, 0) / diffs.length) / 10;
+  const diff = Math.round(10 * circleAverage(diffs, -3.5, 7)) / 10;
   return diff > 0 ? `u${diff}` : diff < 0 ? `d${-diff}` : "0";
 };
