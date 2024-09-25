@@ -1,5 +1,5 @@
 import { Chord, ChordForUtils } from "@/lib/types";
-import { fifthCircleIndex, fifthCircle, accdMarks } from "@/lib/scale";
+import { fifthCircleIndex, fifthCircle, accdMarks, halfAndThirdCircleIndex } from "@/lib/scale";
 
 export const accdNumToSf = (n: number) => {
   if (n > 0) return `${n}＃`;
@@ -9,6 +9,13 @@ export const accdNumToSf = (n: number) => {
 
 export const fitRange = (n: number, min: number, width: number) => {
   return ((n - min) % width + width) % width + min;
+};
+
+export const applyAccd = (arr: number[], accd: number[], inc: number) => {
+  return arr.map((n, i) => 
+    accd.includes(i + 1) ? n + inc :
+    accd.includes(-i - 1) ? n - inc : n
+  );
 };
 
 export const getChordsForUtils = (chords: Chord[], key: number, bpm: number, beats: number): ChordForUtils[] => {
@@ -45,20 +52,14 @@ export const calcMainFunc = (bass: number, shape: string) => {
 };
 
 export const calcScaleLevel = (accd: number[] = []) => {
-  const circle = fifthCircleIndex.map((n, i) => 
-    accd.includes(i + 1) ? n + 7 :
-    accd.includes(-i - 1) ? n - 7 : n
-  );
+  const circle = applyAccd(fifthCircleIndex, accd, 7);
   const range = Math.max(...circle) - Math.min(...circle);
   if (range == 6) { return "-"; }
   return `${accdMarks[range % 7]}${Math.floor((range - 7) / 7) > 0 ? Math.floor((range - 7) / 7) + 1 : ""}`;
 };
 
 export const calcRealname = (key: number, bass: number, shape: string, accd: number[] = []) => {
-  const locations = fifthCircleIndex.map((n, i) => n + key + (
-    accd.includes(i + 1) ? 7 :
-    accd.includes(-i - 1) ? -7 : 0
-  ));
+  const locations = applyAccd(fifthCircleIndex, accd, 7).map((n) => n + key);
   const notes = Array.from(shape).map((n) => Number(n) + bass - 1).map((n) => {
     const location = locations[(n - 1) % 7];
     const name = fifthCircle[fitRange(location, 0, 7)];
@@ -86,21 +87,24 @@ const circleAverage = (values: { value: number, weight: number }[], min: number,
 export const calcChordProg = (prev: Chord | ChordForUtils, current: Chord | ChordForUtils) => {
   const prevMainFunc = calcMainFunc(prev.bass, prev.shape);
   const currentMainFunc = calcMainFunc(current.bass, current.shape);
+  const prevHalfAndThird = applyAccd(halfAndThirdCircleIndex, prev.accd || [], 1);
+  const currentHalfAndThird = applyAccd(halfAndThirdCircleIndex, current.accd || [], 1);
+
   const prevFuncs = [
-    ...prevMainFunc.first.map((f) => ({ func: f, rank: 1 })),
-    ...prevMainFunc.second.map((f) => ({ func: f, rank: 2 })),
+    ...prevMainFunc.first.map((f) => ({ func: prevHalfAndThird[f - 1], rank: 1 })),
+    ...prevMainFunc.second.map((f) => ({ func: prevHalfAndThird[f - 1], rank: 2 })),
   ];
   const currentFuncs = [
-    ...currentMainFunc.first.map((f) => ({ func: f, rank: 1 })),
-    ...currentMainFunc.second.map((f) => ({ func: f, rank: 2 })),
+    ...currentMainFunc.first.map((f) => ({ func: currentHalfAndThird[f - 1], rank: 1 })),
+    ...currentMainFunc.second.map((f) => ({ func: currentHalfAndThird[f - 1], rank: 2 })),
   ];
-  const keyDiff = fitRange((current.key ?? 0) - (prev.key ?? 0), -6, 12) * 4
+  const keyDiff = fitRange((current.key ?? 0) - (prev.key ?? 0), -6, 12) * 7
   const diffs = [];
   for (const pre of prevFuncs) {
     for (const cur of currentFuncs) {
-      diffs.push({ value: fitRange((cur.func - pre.func + keyDiff) * (-3), -3, 7), weight: 1 / (cur.rank * pre.rank) });
+      diffs.push({ value: fitRange(cur.func - pre.func + keyDiff, -12, 24), weight: 1 / (cur.rank * pre.rank) });
     }
   }
-  const diff = Math.round(10 * circleAverage(diffs, -3.5, 7)) / 10;
+  const diff = Math.round(10 * circleAverage(diffs, -12, 24)) / 10;
   return diff > 0 ? `u${diff}` : diff < 0 ? `d${-diff}` : "0";
 };

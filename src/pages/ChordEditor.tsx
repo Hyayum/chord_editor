@@ -44,8 +44,9 @@ const ChordEditor = (props: Props) => {
 
   const mainFunc = calcMainFunc(chord.bass, chord.shape);
   const chordUd = prevChord ? calcChordProg(prevChord, { ...chord, key: key }) : "0";
-  const udColor = chordUd.match(/^u3\.|^d3\./) ? "#f8f" :
-    chordUd.match(/^u0|^d0/) ? "#dad" :
+  const udNum = Number(chordUd.replace(/[ud]/g, ""));
+  const udColor = udNum > 10 ? "#f8f" :
+    udNum && udNum < 2 ? "#dad" :
     chordUd.match(/^u/) ? "#f88" :
     chordUd.match(/^d/) ? "#88f" : "#ccc";
 

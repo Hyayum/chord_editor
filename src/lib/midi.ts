@@ -1,7 +1,7 @@
 import * as Tone from "tone";
 import MidiWriter from "midi-writer-js";
 import { ChordForUtils } from "@/lib/types";
-import { fitRange } from "@/lib/utils";
+import { fitRange, applyAccd } from "@/lib/utils";
 import { basicScale, noteNames } from "@/lib/scale";
 
 const toneSettings = {
@@ -17,10 +17,7 @@ const notesNumToName = (notes: number[]) => {
 };
 
 const chordToNotes = (chord: ChordForUtils) => {
-  const scale = basicScale.map((n, i) => 
-    chord.accd?.includes(i + 1) ? n + 1 : 
-    chord.accd?.includes(-i - 1) ? n - 1 : n
-  );
+  const scale = applyAccd(basicScale, chord.accd || [], 1);
   const keyUd = fitRange(chord.key * 7, 0, 12);
   const bassNote12 = keyUd + scale[chord.bass - 1];
   const bassNote = fitRange(bassNote12, 29, 12); // bass 29(F1) ~ 40(E2)

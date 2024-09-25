@@ -30,16 +30,21 @@ export default function Home() {
   const [chords, setChords] = useState<Chord[]>([defaultChord]);
   const [nowPlaying, setNowPlaying] = useState(0);
 
+  const chordsRef = useRef<Chord[]>([]);
+  useEffect(() => {
+    chordsRef.current = chords;
+  }, [chords]);
+
   const chordsForUtils = getChordsForUtils(chords, key, bpm, beats);
 
   const onChangeChord = (chord: Chord, i: number) => {
-    const newChords = [...chords];
+    const newChords = [...chordsRef.current];
     newChords[i] = chord;
     setChords(newChords);
   };
 
   const addChord = (i: number) => {
-    const newChords = [...chords];
+    const newChords = [...chordsRef.current];
     if (i >= 0) {
       newChords.splice(i, 0, { ...defaultChord, beats: beats });
     } else {
@@ -49,7 +54,7 @@ export default function Home() {
   };
 
   const removeChord = (i: number) => {
-    const newChords = [...chords];
+    const newChords = [...chordsRef.current];
     newChords.splice(i, 1);
     setChords(newChords);
   };
@@ -62,7 +67,7 @@ export default function Home() {
       chords: chords,
     };
     if (!dlData.chords[0].bpm) { dlData.chords[0].bpm = bpm; }
-    if (!dlData.chords[0].key || 12) { dlData.chords[0].key = key; }
+    if ((dlData.chords[0].key ?? 12) == 12) { dlData.chords[0].key = key; }
     const element = document.createElement("a");
     element.style.display = "none";
     const file = new Blob([JSON.stringify(dlData, undefined, 2)], { type: "application/json" });
