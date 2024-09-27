@@ -37,7 +37,6 @@ export const defaultChord: Chord = {
   bass: 1,
   shape: "135",
   beats: 2,
-  key: 12,
 };
 
 const hsvToRgb = (h: number, s: number, v: number) => {

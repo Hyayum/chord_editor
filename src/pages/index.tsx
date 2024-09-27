@@ -175,6 +175,11 @@ export default function Home() {
                 value={key}
                 onChange={(e) => setKey(Number(e.target.value))}
                 fullWidth
+                slotProps={{
+                  select: { 
+                    MenuProps: { disableScrollLock: true },
+                  },
+                }}
               >
                 {keyOptions.map((k) => (
                   <MenuItem key={k.value} value={k.value}>

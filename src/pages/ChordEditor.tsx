@@ -81,6 +81,11 @@ const ChordEditor = (props: Props) => {
             value={chord.bass}
             onChange={(e) => onChange({ ...chord, bass: Number(e.target.value) })}
             fullWidth
+            slotProps={{
+              select: { 
+                MenuProps: { disableScrollLock: true },
+              },
+            }}
           >
             {Array(7).fill(0).map((z, b) => (
               <MenuItem key={b + 1} value={b + 1}>
@@ -159,6 +164,9 @@ const ChordEditor = (props: Props) => {
             slotProps={{
               inputLabel: {
                 shrink: true,
+              },
+              select: { 
+                MenuProps: { disableScrollLock: true },
               },
             }}
           >
@@ -297,6 +305,7 @@ const ShapeSelector = ({
         horizontal: 'center',
       }}
       onClose={onClose}
+      disableScrollLock
     >
       <Paper elevation={3} sx={{ p: 1 }}>
         <Tabs value={tabValue} onChange={(e, n) => setTabValue(n)}>
@@ -382,6 +391,7 @@ const AccdSelector = ({
         horizontal: 'center',
       }}
       onClose={onClose}
+      disableScrollLock
     >
       <Paper elevation={3} sx={{ p: 1 }}>
         <Box sx={{ display: "flex" }}>
