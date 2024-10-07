@@ -51,6 +51,10 @@ export const calcMainFunc = (bass: number, shape: string) => {
   return { first: firstMainFunc, second: secondMainFunc };
 };
 
+export const mainFuncToStr = (mainFunc: { first: number[], second: number[] }) => {
+  return `${mainFunc.first.join(",")}${mainFunc.second.length ? "/" + mainFunc.second.join(",") : ""}`;
+};
+
 export const calcScaleLevel = (accd: number[] = []) => {
   const circle = applyAccd(fifthCircleIndex, accd, 7);
   const range = Math.max(...circle) - Math.min(...circle);

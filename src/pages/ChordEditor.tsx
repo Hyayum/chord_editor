@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useRef, useState, Component } from "react";
 import { Chord, ChordForUtils, keyOptions, defaultChord, keyColors } from "@/lib/types";
-import { accdNumToSf, fitRange, calcMainFunc, calcScaleLevel, calcRealname, calcChordProg } from "@/lib/utils";
+import { accdNumToSf, fitRange, calcMainFunc, mainFuncToStr, calcScaleLevel, calcRealname, calcChordProg } from "@/lib/utils";
 import NumberField from "@/components/NumberField";
 
 interface Props {
@@ -42,7 +42,7 @@ const ChordEditor = (props: Props) => {
     setOpenAccd(false);
   };
 
-  const mainFunc = calcMainFunc(chord.bass, chord.shape);
+  const mainFunc = mainFuncToStr(calcMainFunc(chord.bass, chord.shape));
   const chordUd = prevChord ? calcChordProg(prevChord, { ...chord, key: key }) : "0";
   const udNum = Number(chordUd.replace(/[ud]/g, ""));
   const udColor = udNum > 10 ? "#f8f" :
@@ -117,7 +117,7 @@ const ChordEditor = (props: Props) => {
 
         <Box sx={{ width: 80, bgcolor: keyColors[fitRange(key, 0, 12)], borderRadius: 3 }}>
           <Typography variant="h6" sx={{ color: "#555", textAlign: "center", my: 0.4 }}>
-            {`${mainFunc.first.join(",")}${mainFunc.second.length ? "/" + mainFunc.second.join(",") : ""}`}
+            {mainFunc}
           </Typography>
         </Box>
 
@@ -328,22 +328,28 @@ const ShapeSelector = ({
             <Box sx={{ display: "flex" }} key={basic}>
               {Array(7).fill(0).map((z, n) => {
                 const shape = convertShape(basic, n + 1);
+                const mainFunc = mainFuncToStr(calcMainFunc(1, shape));
                 return (
-                  <Box sx={{ width: 70 }} key={n}>
+                  <Box sx={{ width: 70, my: 0.2 }} key={n}>
                     {basic.includes(String(n + 1)) && !(basic == "1234567" && n > 0) && (
-                      <Button
-                        color={
-                          value == shape ? "error"
-                          : basicShapesWithSemi.includes(shape) ? "success"
-                          : "primary"
-                        }
-                        variant="contained"
-                        size="small"
-                        onClick={() => onChange(shape)}
-                        sx={{ m: 0.2 }}
-                      >
-                        {shape}
-                      </Button>
+                      <>
+                        <Button
+                          color={
+                            value == shape ? "error"
+                            : basicShapesWithSemi.includes(shape) ? "success"
+                            : "primary"
+                          }
+                          variant="contained"
+                          size="small"
+                          onClick={() => onChange(shape)}
+                          sx={{ mx: 0.2 }}
+                        >
+                          {shape}
+                        </Button>
+                        <Typography variant="subtitle2" sx={{ textAlign: "center", color: "#888" }}>
+                          {mainFunc}
+                        </Typography>
+                      </>
                     )}
                   </Box>
                 )
